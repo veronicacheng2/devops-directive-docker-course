@@ -28,7 +28,7 @@ When we create a container from a container image, everything in the image is tr
 
 ![](./readme-assets/container-filesystem.jpg)
 
-### A. Installing Dependencies:
+### A. Installing Dependencies (configurations known at build time): 
 
 Let's experiment with how installing something into a container at runtime behaves!
 
@@ -36,7 +36,7 @@ Let's experiment with how installing something into a container at runtime behav
 
 
 ```bash
-# Create a container from the ubuntu image
+# Create a container from the ubuntu image  (--interactive --tty means we will get a running shell within the container; --rm: tells docker that once this container process exits, it should not store that stopped container, it should remove that from the system, this container will be thrown away once stopped)
 docker run --interactive --tty --rm ubuntu:22.04
 
 # Try to ping google.com
@@ -50,11 +50,12 @@ ping google.com -c 1 # This time it succeeds!
 exit
 ```
 
-Let's try that again:
+Let's try that again:   
 ```bash
 docker run -it --rm ubuntu:22.04
 ping google.com -c 1 # It fails! 🤔
 ```
+p.s. -it means --interactive --tty
 
 It fails the second time because we installed it into that read/write layer specific to the first container, and when we tried again it was a **separate** container with a **separate** read/write layer!
 
@@ -69,7 +70,7 @@ apt install iputils-ping --yes
 ping google.com -c 1
 exit
 
-# List all containers
+# List all containers  (docker ps: list docker container)
 docker container ps -a | grep my-ubuntu-container
 docker container inspect my-ubuntu-container
 
@@ -82,6 +83,7 @@ ping google.com -c 1 # It should now succeed! 🎉
 exit
 ```
 
+##### (differences in dependency of container, and dependency of container image)
 We generally never want to rely on a container to persist the data, so for a dependency like this, we would want to include it in the image:
 
 ```bash
