@@ -104,7 +104,7 @@ The `FROM... RUN...` stuff is part of what is called a `Dockerfile` that is used
 
 The one exception to this rule is environment specific configuration (environment variables, config files, etc...) which can be provided at runtime as a part of the environment (see: https://12factor.net/config).
 
-### B. Persisting Data Produced by the Application:
+### B. Persisting Data Produced by the Application (data generated at runtime):
 
 Often, our applications produce data that we need to safely persist (e.g. database data, user uploaded data, etc...) even if the containers are destroyed and recreated. Luckily, Docker (and containers more generally) have a feature to handle this use case called `Volumes` and `mounts`!
 
